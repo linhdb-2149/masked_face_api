@@ -11,6 +11,9 @@ Configure direction absolute path in *model_cf.config*; change PORT variable if 
 
 ## Model
 Download model, place serving folder in directory
+```
+https://drive.google.com/file/d/1jdTFcqdKRTA-4Bg_os-Ai9n-ZTm0hPOi/view?usp=sharing
+```
 
 ## Run Serving
 ```
