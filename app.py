@@ -38,11 +38,12 @@ def mask_detect():
     
     (img_visual, faces) = face_dtt.predict(img_arr)
 
-    data_return = list()
+    data_return = dict()
     if len(faces) > 0:
         visualized_image_path = os.path.join('media', "image_{}.png".format(time.time()))
         cv2.imwrite(visualized_image_path, img_visual[:,:,::-1])
-        data_return.append({'face_detected_image': str(visualized_image_path)})
+        data_return['face_detected_image'] = str(visualized_image_path)
+        data_return['faces'] = list()
         message = 'Success'
     else:
         message = 'No face detected'
@@ -51,7 +52,7 @@ def mask_detect():
         face_image_path = os.path.join('media', "face_{}.png".format(time.time()))
         cv2.imwrite(face_image_path, faces[i][:,:,::-1])
     
-        data_return.append(
+        data_return['faces'].append(
             {
                 'label': str(label),
                 'score': float(score),
