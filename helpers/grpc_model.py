@@ -37,7 +37,12 @@ class MaskClassifier(object):
         img = img / 255
         return np.expand_dims(img, axis=0)
 
-
+    def labelFromScore(self, score):
+        if score > config.CONFIDENCE_THRESHOLD:
+            label = 'Mask'
+        else:
+            label = 'No mask'
+        return label
 
     def predict(self, img):
         assert img.ndim == 3
@@ -51,7 +56,9 @@ class MaskClassifier(object):
 
         y_pred = tf.contrib.util.make_ndarray(result.outputs[self.y_pred])
         score = y_pred[0][0]
-        return score
+        label = self.labelFromScore(score)
+
+        return (label, score)
 
 class Detector(object):
     def __init__(
@@ -109,6 +116,7 @@ class Detector(object):
             ymin = int(box[3] * img_height / 300)
             xmax = int(box[4] * img_width / 300)
             ymax = int(box[5] * img_height / 300)
+            cv2.rectangle(img_visual, (xmin, ymin), (xmax, ymax), (0, 0, 220), 3)
             face.append(img_crop[ymin:ymax, xmin:xmax])
             bbox.append([xmin, xmax, ymin, ymax])
-        return (face, bbox)
+        return (img_visual, face)
